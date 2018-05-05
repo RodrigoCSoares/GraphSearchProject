@@ -21,6 +21,14 @@ public class Cidade {
         rotas.add(novaRota);
     }
 
+    public void addRota(Cidade destino, int distancia) throws Exception{
+        if(this == destino)
+            throw new Exception("Destino invalido!");
+
+        Rota nova = new Rota(destino, distancia);
+        rotas.add(nova);
+    }
+
     public void removeRota(Rota rota) throws Exception{
         if(rota==null) throw new Exception("Rota inválida");
 

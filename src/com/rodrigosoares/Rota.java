@@ -1,37 +1,40 @@
 package com.rodrigosoares;
 
-import java.util.ArrayList;
 
 public class Rota {
-    private Cidade cidadeUm;
-    private Cidade cidadeDois;
-    private int distacia;
+    Cidade destino;
+    int distancia;
+    boolean visitada;
 
-    public Rota(Cidade cidadeUm, Cidade cidadeDois, int distacia) throws Exception{
-        if(cidadeUm == null || cidadeDois==null || distacia<=0)
-            throw new Exception("Rota inválida!");
+    public Rota (Cidade destino, int distancia) throws Exception{
+        if(destino == null || distancia<=0)
+            throw new Exception("Rota invalida!");
 
-        this.cidadeUm = cidadeUm;
-        this.cidadeDois = cidadeDois;
-        this.distacia = distacia;
+        this.destino = destino;
+        this.distancia = distancia;
     }
 
-    public Cidade getCidadeUm(){
-        return this.cidadeUm;
+    public Cidade getDestino() {
+        return destino;
     }
 
-    public Cidade getCidadeDois(){
-        return this.cidadeDois;
+    public void setDestino(Cidade destino) {
+        this.destino = destino;
     }
 
-    public int getDistacia(){
-        return this.distacia;
+    public int getDistancia() {
+        return distancia;
     }
 
-
-    public String toString() {
-        String ret = "["+this.cidadeUm+", "+this.cidadeDois+", "+this.distacia+"]";
-        return ret;
+    public void setDistancia(int distancia) {
+        this.distancia = distancia;
     }
 
+    public void setVisitada(boolean b){
+        this.visitada = b;
+    }
+
+    public boolean isVisitada() {
+        return this.visitada;
+    }
 }
