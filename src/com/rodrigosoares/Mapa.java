@@ -63,6 +63,7 @@ public class Mapa {
         ArrayList<Rota> rotaAtual;
         ArrayList<Rota> rotasDaOrigem = origem.getRotas();
 
+        //Adiciona todas as rotas da origem na pilha
         for (int i=0 ; i<rotasDaOrigem.size(); i++){
             ArrayList<Rota> novaRota = new ArrayList<>();
             novaRota.add(rotasDaOrigem.get(i));
@@ -70,11 +71,12 @@ public class Mapa {
             stack.add(novaRota);
         }
 
+        //Verifica se todas as rotas da pilha já foram testadas
         while (!stack.empty()){
             rotaAtual = stack.pop();
             distanciaAtual=0;
-            //if(rotaAtual.get(rotaAtual.size()-1).destino.getNome() == nomeOrigem) {
-            System.out.println(rotaAtual.get(rotaAtual.size()-1).destino.getNome());
+            //System.out.println(rotaAtual.get(rotaAtual.size()-1).destino.getNome());
+            //Verifica se a rota atual passa por todas as cidades (nós) desejados
             if(contemTodasAsCidades(rotaAtual)){
                 for (int i = 0; i < rotaAtual.size(); i++) {
                     distanciaAtual += rotaAtual.get(i).distancia;
@@ -86,9 +88,11 @@ public class Mapa {
             }
 
             else{
+                //Adiciona todas as rotas da ultima cidade (nó) visitada na pilha
                 for (int i=0 ; i<rotaAtual.get(rotaAtual.size()-1).getDestino().getRotas().size(); i++) {
                     ArrayList<Rota> novaRota = new ArrayList<>(rotaAtual);
-                    if(!contemCidadesRepetidas(rotaAtual)) {
+                    //Verifica se a rota a ser adicionada na pilha não contem cidades repetidas
+                    if(!contemCidadesRepetidas(rotaAtual, origem)) {
                         novaRota.add(rotaAtual.get(rotaAtual.size() - 1).getDestino().getRotas().get(i));
                         System.out.println("Destino: " + novaRota.get(novaRota.size() - 1).getDestino() + " | Size: " + novaRota.size());
                         stack.add(novaRota);
@@ -99,8 +103,11 @@ public class Mapa {
         return menorRota;
     }
 
-    private boolean contemCidadesRepetidas(ArrayList<Rota> rota){
+    //Verifica se a rota possue cidades (nós) repetidas
+    private boolean contemCidadesRepetidas(ArrayList<Rota> rota, Cidade origem){
         ArrayList<Cidade> cidadesContidas = new ArrayList<>();
+        cidadesContidas.add(origem);
+
         for(int i=0; i<rota.size(); i++){
             if(cidadesContidas.contains(rota.get(i).getDestino()))
                return true;
@@ -110,6 +117,7 @@ public class Mapa {
         return false;
     }
 
+    //Verifica se a rota passa por todas as cidades (nós) do mapa
     public boolean contemTodasAsCidades(ArrayList<Rota> rotas){
         ArrayList<Cidade> cidadesCopia = new ArrayList<>(this.cidades);
         ArrayList<Cidade> cidadesNaRota = new ArrayList<>();

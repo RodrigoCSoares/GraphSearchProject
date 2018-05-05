@@ -14,7 +14,7 @@ public class Main {
                 System.out.println(cidades.get(i).getNome());
             }
 
-            ArrayList<Rota> menorRota = mapa.menorRota("Campinas");
+            ArrayList<Rota> menorRota = mapa.menorRota("Valinhos");
             System.out.println("----------------MENOR ROTA----------------");
             for (int i=0; i<menorRota.size(); i++){
                 System.out.print(menorRota.get(i).getDestino().getNome()+", ");
