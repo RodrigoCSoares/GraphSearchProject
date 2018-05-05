@@ -26,7 +26,7 @@ public class Mapa {
         Campinas.addRota(Valinhos, 5);
         Campinas.addRota(Paulinia, 7);
 
-        Valinhos.addRota(Campinas, 10);
+        Valinhos.addRota(Campinas, 5);
         Valinhos.addRota(Paulinia, 3);
 
         Paulinia.addRota(Campinas, 7);
@@ -56,7 +56,7 @@ public class Mapa {
 
 
     public ArrayList<Rota> menorRota(String nomeOrigem) throws Exception{
-        int menorDistancia=-1;
+        int menorDistancia=999999999;
         int distanciaAtual;
         ArrayList<Rota> menorRota = null;
         Cidade origem = getCidade(nomeOrigem);
@@ -66,6 +66,7 @@ public class Mapa {
         for (int i=0 ; i<rotasDaOrigem.size(); i++){
             ArrayList<Rota> novaRota = new ArrayList<>();
             novaRota.add(rotasDaOrigem.get(i));
+            System.out.println("Rotas da origem:"+rotasDaOrigem.get(i).getDestino());
             stack.add(novaRota);
         }
 
@@ -85,22 +86,40 @@ public class Mapa {
             }
 
             else{
-                //for (int i=0 ; i<rotaAtual.size(); i++){
-                //    ArrayList<Rota> novaRota = new ArrayList<>(rotaAtual);
-                //    novaRota.add(rotaAtual.get(i));
-                //    stack.add();
+                for (int i=0 ; i<rotaAtual.get(rotaAtual.size()-1).getDestino().getRotas().size(); i++) {
+                    ArrayList<Rota> novaRota = new ArrayList<>(rotaAtual);
+                    if(!contemCidadesRepetidas(rotaAtual)) {
+                        novaRota.add(rotaAtual.get(rotaAtual.size() - 1).getDestino().getRotas().get(i));
+                        System.out.println("Destino: " + novaRota.get(novaRota.size() - 1).getDestino() + " | Size: " + novaRota.size());
+                        stack.add(novaRota);
+                    }
+                }
             }
         }
         return menorRota;
     }
 
-    private boolean contemTodasAsCidades(ArrayList<Rota> rotas){
-        ArrayList<Cidade> cidades = new ArrayList<>();
+    private boolean contemCidadesRepetidas(ArrayList<Rota> rota){
+        ArrayList<Cidade> cidadesContidas = new ArrayList<>();
+        for(int i=0; i<rota.size(); i++){
+            if(cidadesContidas.contains(rota.get(i).getDestino()))
+               return true;
+            else
+                cidadesContidas.add(rota.get(i).getDestino());
+        }
+        return false;
+    }
+
+    public boolean contemTodasAsCidades(ArrayList<Rota> rotas){
+        ArrayList<Cidade> cidadesCopia = new ArrayList<>(this.cidades);
+        ArrayList<Cidade> cidadesNaRota = new ArrayList<>();
         for (int i=0; i<rotas.size(); i++){
-            cidades.add(rotas.get(i).destino);
+            cidadesNaRota.add(rotas.get(i).destino);
         }
 
-        if(cidades==this.cidades)
+        cidadesCopia.removeAll(cidadesNaRota);
+
+        if(cidadesCopia.isEmpty())
             return true;
         return false;
     }
