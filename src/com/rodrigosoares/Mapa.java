@@ -5,41 +5,16 @@ import java.util.LinkedList;
 import java.util.Stack;
 
 public class Mapa {
-    private ArrayList<Cidade> cidades = new ArrayList<>();
+    private ArrayList<Cidade> cidades;
     private Stack< ArrayList<Rota> > stack = new Stack<>();
 
 
-    public Mapa() throws Exception{
-        Cidade Campinas = new Cidade ("Campinas");
-        Cidade SaoPaulo = new Cidade ("Sao Paulo");
-        Cidade Valinhos = new Cidade ("Valinhos");
-        Cidade Paulinia = new Cidade("Paulinia");
-        Cidade Jundiai = new Cidade("Jundiai");
-        cidades.add(Campinas);
-        cidades.add(SaoPaulo);
-        cidades.add(Valinhos);
-        cidades.add(Paulinia);
-        cidades.add(Jundiai);
+    public Mapa(ArrayList<Cidade> cidades) throws Exception{
+        if(cidades == null)
+            throw new Exception ("Cidades invalidas!");
 
+        this.cidades = new ArrayList<>(cidades);
 
-        Campinas.addRota(SaoPaulo, 10);
-        Campinas.addRota(Valinhos, 5);
-        Campinas.addRota(Paulinia, 7);
-
-        Valinhos.addRota(Campinas, 5);
-        Valinhos.addRota(Paulinia, 3);
-
-        Paulinia.addRota(Campinas, 7);
-        Paulinia.addRota(Valinhos, 3);
-        Paulinia.addRota(SaoPaulo, 20);
-        Paulinia.addRota(Jundiai, 5);
-
-        SaoPaulo.addRota(Campinas, 10);
-        SaoPaulo.addRota(Paulinia, 20);
-        SaoPaulo.addRota(Jundiai, 10);
-
-        Jundiai.addRota(Paulinia, 5);
-        Jundiai.addRota(SaoPaulo, 10);
     }
 
     public ArrayList<Cidade> getCidades(){
@@ -53,7 +28,6 @@ public class Mapa {
         }
         throw new Exception("Cidade inexistente!");
     }
-
 
     public ArrayList<Rota> menorRota(String nomeOrigem) throws Exception{
         int menorDistancia=999999999;
@@ -75,11 +49,13 @@ public class Mapa {
         while (!stack.empty()){
             rotaAtual = stack.pop();
             distanciaAtual=0;
-            //System.out.println(rotaAtual.get(rotaAtual.size()-1).destino.getNome());
+
             //Verifica se a rota atual passa por todas as cidades (nós) desejados
             if(contemTodasAsCidades(rotaAtual)){
                 for (int i = 0; i < rotaAtual.size(); i++) {
                     distanciaAtual += rotaAtual.get(i).distancia;
+                    if(distanciaAtual>menorDistancia)
+                        break;
                 }
                 if (distanciaAtual < menorDistancia) {
                     menorDistancia = distanciaAtual;
@@ -94,7 +70,6 @@ public class Mapa {
                     //Verifica se a rota a ser adicionada na pilha não contem cidades repetidas
                     if(!contemCidadesRepetidas(rotaAtual, origem)) {
                         novaRota.add(rotaAtual.get(rotaAtual.size() - 1).getDestino().getRotas().get(i));
-                        System.out.println("Destino: " + novaRota.get(novaRota.size() - 1).getDestino() + " | Size: " + novaRota.size());
                         stack.add(novaRota);
                     }
                 }
