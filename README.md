@@ -12,3 +12,21 @@ A resolução deste problema pode ser aplicada em vários outros problemas de lo
 
 ## MAPA:
 ![alt text](https://image.ibb.co/bwV69S/mapaEUA.jpg)
+
+PROJETO BÁSICO [7 PONTOS, sendo 2 pontos: cliente-servidor e 5 pontos: caminho)]
+
+Implemente um programa que tenha como entrada a cidade onde o cliente irá desembarcar e como saída o percurso visitando todas as cidades e retornando à cidade inicial. O programa deverá mostrar claramente todos os trechos percorridos, a distância de cada trecho e a distância total a ser percorrida.
+Deve haver um processo cliente, onde será feita a interação com o usuário e um processo servidor, que receberá as requisições (ex.: cidade inicial), processará e retornará a resposta ao cliente.
+
+###OPCIONAIS:
+Os clientes podem escolher um subconjunto das cidades presentes no mapa para serem visitadas..
+
+Os clientes podem inserir novas cidades por onde também querem passar, e também novas estradas.
+
+Os clientes podem especificar quantos dias pretendem ficar em cada destino. Usando a data de chegada nos Estados Unidos (inserida pelo usuário), o sistema deverá imprimir as datas de chegada e saída de cada cidade até o embarque de volta ao Brasil.
+
+O sistema deverá apresentar ao usuário os três percursos de menor distância, ordenando-os a partir do menor.
+
+O usuário poderá escolher duas cidades, e o sistema apresentará o menor caminho entre elas.
+
+O sistema buscará a solução bidireccionalmente e encontrará a solução em tempo substancialmente menor que a solução convencional (em “tempo de reação” do usuário).
