@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Cidade {
     private String nome;
     private ArrayList<Rota> rotas;
+    private boolean vizinhaDeIsolada;
 
     public Cidade(String nome) throws Exception{
         if(nome=="")
@@ -13,6 +14,7 @@ public class Cidade {
 
         this.nome = nome;
         this.rotas = new ArrayList<>();
+        this.vizinhaDeIsolada = false;
     }
 
     public void addRota(Rota novaRota) throws Exception{
@@ -41,6 +43,14 @@ public class Cidade {
 
     public ArrayList<Rota> getRotas(){
         return this.rotas;
+    }
+
+    public void setVizinhaDeIsolada(boolean value){
+        this.vizinhaDeIsolada = value;
+    }
+
+    public boolean isVizinhaDeIsolada(){
+        return this.vizinhaDeIsolada;
     }
 
     public String toString() {

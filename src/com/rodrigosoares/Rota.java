@@ -37,4 +37,5 @@ public class Rota {
     public boolean isVisitada() {
         return this.visitada;
     }
+
 }
