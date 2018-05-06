@@ -67,6 +67,7 @@ public class Mapa {
                 //Adiciona todas as rotas da ultima cidade (nó) visitada na pilha
                 for (int i=0 ; i<rotaAtual.get(rotaAtual.size()-1).getDestino().getRotas().size(); i++) {
                     ArrayList<Rota> novaRota = new ArrayList<>(rotaAtual);
+
                     //Verifica se a rota a ser adicionada na pilha não contem cidades repetidas
                     if(!contemCidadesRepetidas(rotaAtual, origem)) {
                         novaRota.add(rotaAtual.get(rotaAtual.size() - 1).getDestino().getRotas().get(i));
@@ -84,10 +85,12 @@ public class Mapa {
         cidadesContidas.add(origem);
 
         for(int i=0; i<rota.size(); i++){
-            if(cidadesContidas.contains(rota.get(i).getDestino()))
-               return true;
-            else
-                cidadesContidas.add(rota.get(i).getDestino());
+            Cidade cidadeAtual = rota.get(i).getDestino();
+            if(cidadesContidas.contains(cidadeAtual))
+                    return true;
+            else {
+                cidadesContidas.add(cidadeAtual);
+            }
         }
         return false;
     }
@@ -104,6 +107,7 @@ public class Mapa {
 
         if(cidadesCopia.isEmpty())
             return true;
+
         return false;
     }
 

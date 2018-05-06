@@ -10,6 +10,7 @@ public class Main {
         Cidade Valinhos = new Cidade ("Valinhos");
         Cidade Paulinia = new Cidade("Paulinia");
         Cidade Jundiai = new Cidade("Jundiai");
+
         cidades.add(Campinas);
         cidades.add(SaoPaulo);
         cidades.add(Valinhos);
@@ -45,7 +46,7 @@ public class Main {
 
             mapa = new Mapa(cidades);
 
-            ArrayList<Rota> menorRota = mapa.menorRota("Sao Paulo");
+            ArrayList<Rota> menorRota = mapa.menorRota("Paulinia");
             System.out.println("----------------MENOR ROTA----------------");
             for (int i=0; i<menorRota.size(); i++){
                 System.out.print(menorRota.get(i).getDestino().getNome()+", ");
