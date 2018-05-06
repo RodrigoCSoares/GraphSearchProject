@@ -13,12 +13,11 @@ A resolução deste problema pode ser aplicada em vários outros problemas de lo
 ## MAPA:
 ![alt text](https://image.ibb.co/bwV69S/mapaEUA.jpg)
 
-PROJETO BÁSICO [7 PONTOS, sendo 2 pontos: cliente-servidor e 5 pontos: caminho)]
-
+### PROJETO BÁSICO
 Implemente um programa que tenha como entrada a cidade onde o cliente irá desembarcar e como saída o percurso visitando todas as cidades e retornando à cidade inicial. O programa deverá mostrar claramente todos os trechos percorridos, a distância de cada trecho e a distância total a ser percorrida.
 Deve haver um processo cliente, onde será feita a interação com o usuário e um processo servidor, que receberá as requisições (ex.: cidade inicial), processará e retornará a resposta ao cliente.
 
-###OPCIONAIS:
+### OPCIONAIS:
 Os clientes podem escolher um subconjunto das cidades presentes no mapa para serem visitadas..
 
 Os clientes podem inserir novas cidades por onde também querem passar, e também novas estradas.
