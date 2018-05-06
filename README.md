@@ -10,4 +10,5 @@ O problema dos clientes é que a lista de cidades que querem visitar é muito gr
 ## OBSERVAÇÃO:
 A resolução deste problema pode ser aplicada em vários outros problemas de logística, como por exemplo, na entrega de produtos a vários clientes, saindo e retornando à empresa de distribuição, com a menor distância, tempo ou custo.
 
+## MAPA:
 ![alt text](https://image.ibb.co/bwV69S/mapaEUA.jpg)
