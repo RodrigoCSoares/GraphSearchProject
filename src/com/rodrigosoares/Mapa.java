@@ -52,7 +52,9 @@ public class Mapa {
 
             //Verifica se a rota atual passa por todas as cidades (nós) desejados e a última cidade é a origem
             //printaRotas(rotaAtual);
+
             if(contemTodasAsCidades(rotaAtual) && rotaAtual.get(rotaAtual.size()-1).getDestino()==origem){
+                System.out.print("ACHOU UMA!" + menorDistancia);
                 for (int i = 0; i < rotaAtual.size(); i++) {
                     distanciaAtual += rotaAtual.get(i).distancia;
                     if(distanciaAtual>menorDistancia)
