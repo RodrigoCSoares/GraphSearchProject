@@ -38,10 +38,23 @@ public class ArrayRotas {
         this.distancia += distancia;
     }
 
-    public void addRota (Rota rota) throws Exception{
+    public void add (Rota rota) throws Exception{
         if (rota == null) throw new Exception("Rota invadlida!");
 
         this.rota.add(rota);
         this.distancia += rota.distancia;
     }
+
+    public int size(){
+        return this.rota.size();
+    }
+
+    public Rota get(int index){
+        return this.rota.get(index);
+    }
+
+    public int getDistancia(){
+        return this.distancia;
+    }
+
 }
