@@ -296,7 +296,7 @@ public class Main {
 
             mapa = new Mapa(cidades);
 
-            ArrayRotas menorRota = mapa.menorRota("Chicago");
+            ArrayRotas menorRota = mapa.menorRota("NovaYork");
             System.out.println("----------------MENOR ROTA----------------");
             for (int i=0; i<menorRota.size(); i++){
                 System.out.print(menorRota.get(i).getDestino().getNome()+", ");

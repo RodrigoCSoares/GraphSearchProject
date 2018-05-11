@@ -30,6 +30,10 @@ public class Mapa {
     }
 
     public ArrayRotas menorRota(String nomeOrigem) throws Exception{
+        return menorRota(nomeOrigem, this.cidades);
+    }
+
+    public ArrayRotas menorRota(String nomeOrigem, ArrayList<Cidade> destinos) throws Exception{
         int menorDistancia=999999999;
         ArrayRotas menorRota = null;
         Cidade origem = getCidade(nomeOrigem);
@@ -50,7 +54,7 @@ public class Mapa {
 
             //Verifica se a rota atual passa por todas as cidades (nós) desejados e a última cidade é a origem
             //printaRotas(rotaAtual);
-            if(rotaAtual.get(rotaAtual.size()-1).getDestino()==origem && contemTodasAsCidades(rotaAtual)){
+            if(rotaAtual.get(rotaAtual.size()-1).getDestino()==origem && contemTodasAsCidades(rotaAtual, destinos)){
                     if(rotaAtual.getDistancia()>menorDistancia)
                         break;
 
@@ -60,7 +64,6 @@ public class Mapa {
                 }
                 System.out.print("ACHOU UMA!" + menorDistancia + "\n");
                 printaRotas(menorRota);
-                System.exit(0);
             }
 
             else{
@@ -123,8 +126,8 @@ public class Mapa {
     */
 
     //Verifica se a rota passa por todas as cidades (nós) do mapa
-    public boolean contemTodasAsCidades(ArrayRotas rotas){
-        ArrayList<Cidade> cidadesCopia = new ArrayList<>(this.cidades);
+    public boolean contemTodasAsCidades(ArrayRotas rotas, ArrayList<Cidade> destinos){
+        ArrayList<Cidade> cidadesCopia = new ArrayList<>(destinos);
         ArrayList<Cidade> cidadesNaRota = new ArrayList<>();
         for (int i=0; i<rotas.size(); i++){
             cidadesNaRota.add(rotas.get(i).destino);
