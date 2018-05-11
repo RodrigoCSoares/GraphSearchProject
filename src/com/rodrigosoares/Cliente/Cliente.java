@@ -14,10 +14,11 @@ public class Cliente {
             BufferedReader teclado = new BufferedReader(new InputStreamReader(System.in));
             String mensagem;
 
-            do {
+            //do {
                 mensagem = teclado.readLine();
+                transmissor.writeChars(mensagem);
                 transmissor.flush();
-            }while (mensagem.toUpperCase()!="SAIR");
+            //}while (mensagem.toUpperCase()!="SAIR");
 
             transmissor.close();
             conexao.close();

@@ -300,7 +300,7 @@ public class Servidor {
             String cidade;
 
             do {
-                cidade = (String)receptor.readObject();
+                cidade = receptor.readUTF();
                 Mapa mapa;
                 ArrayList<Cidade> cidades = new ArrayList<>();
                 inicializaCidades(cidades);
