@@ -1,4 +1,4 @@
-package com.rodrigosoares;
+package com.rodrigosoares.Servidor;
 
 
 public class Rota {

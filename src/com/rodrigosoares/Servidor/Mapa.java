@@ -1,7 +1,6 @@
-package com.rodrigosoares;
+package com.rodrigosoares.Servidor;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Stack;
 
 public class Mapa {
@@ -60,7 +59,6 @@ public class Mapa {
                 }
                 System.out.print("ACHOU UMA!" + menorDistancia + "\n");
                 printaRotas(menorRota);
-                System.exit(0);
             }
 
             else{
@@ -106,21 +104,6 @@ public class Mapa {
         }
         return false;
     }
-
-    /*
-    private boolean proximaCidadeRepetida (ArrayList<Rota> rota){
-        if(rota.size()>2) {
-            if (rota.get(rota.size()-1).getDestino().isVisitada()) {
-                //Verifica se a cidade anterior esta isolada
-                if (rota.get(rota.size() - 2).getDestino().getRotas().size() == 1)
-                    return false;
-                else
-                    return true;
-            }
-        }
-        return false;
-    }
-    */
 
     //Verifica se a rota passa por todas as cidades (nós) do mapa
     public boolean contemTodasAsCidades(ArrayRotas rotas){

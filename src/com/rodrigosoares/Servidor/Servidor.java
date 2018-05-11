@@ -1,8 +1,13 @@
-package com.rodrigosoares;
+package com.rodrigosoares.Servidor;
 
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
-public class Main {
+public class Servidor {
 
     private static void inicializaCidades(ArrayList<Cidade> cidades) throws Exception{
         Cidade Albany= new Cidade ("Albany");
@@ -289,18 +294,28 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            Mapa mapa;
-            ArrayList<Cidade> cidades = new ArrayList<>();
+            ServerSocket pedido = new ServerSocket(32123);
+            Socket conexao = pedido.accept();
+            ObjectInputStream receptor = new ObjectInputStream(conexao.getInputStream());
+            String cidade;
 
-            inicializaCidades(cidades);
+            do {
+                cidade = (String)receptor.readObject();
+                Mapa mapa;
+                ArrayList<Cidade> cidades = new ArrayList<>();
+                inicializaCidades(cidades);
+                mapa = new Mapa(cidades);
 
-            mapa = new Mapa(cidades);
+                ArrayRotas menorRota = mapa.menorRota(cidade);
+                System.out.println("----------------MENOR ROTA----------------");
+                for (int i = 0; i < menorRota.size(); i++) {
+                    System.out.print(menorRota.get(i).getDestino().getNome() + ", ");
+                }
+            }while (cidade.toUpperCase()!="SAIR");
 
-            ArrayRotas menorRota = mapa.menorRota("Chicago");
-            System.out.println("----------------MENOR ROTA----------------");
-            for (int i=0; i<menorRota.size(); i++){
-                System.out.print(menorRota.get(i).getDestino().getNome()+", ");
-            }
+            pedido.close();
+            conexao.close();
+            receptor.close();
 
         }
         catch (Exception e ){
