@@ -3,10 +3,11 @@ package com.rodrigosoares;
 
 import java.util.ArrayList;
 
-public class Cidade {
+public class Cidade{
     private String nome;
     private ArrayList<Rota> rotas;
     private boolean vizinhaDeIsolada;
+    protected boolean visitada = false;
 
     public Cidade(String nome) throws Exception{
         if(nome=="")
@@ -15,6 +16,16 @@ public class Cidade {
         this.nome = nome;
         this.rotas = new ArrayList<>();
         this.vizinhaDeIsolada = false;
+    }
+
+    public Cidade (Cidade modelo) throws Exception{
+
+        if(modelo==null)
+            throw new Exception("Cidade invalida!");
+
+        this.nome = modelo.nome;
+        this.rotas = new ArrayList<>(modelo.rotas);
+        this.vizinhaDeIsolada = modelo.vizinhaDeIsolada;
     }
 
     public void addRota(Rota novaRota) throws Exception{
@@ -42,7 +53,7 @@ public class Cidade {
     }
 
     public ArrayList<Rota> getRotas(){
-        return this.rotas;
+        return new ArrayList<>(this.rotas);
     }
 
     public void setVizinhaDeIsolada(boolean value){

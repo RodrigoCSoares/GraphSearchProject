@@ -46,7 +46,6 @@ public class Main {
         Cidade Detroit = new Cidade("Detroit");
         Cidade SanAntonio = new Cidade("San Antonio");
         Cidade Houston = new Cidade("Houston");
-        Cidade Albuquerque = new Cidade("Albuquerque");
 
         cidades.add(Houston);
         cidades.add(SanAntonio);
@@ -89,7 +88,6 @@ public class Main {
         cidades.add(Portland);
         cidades.add(Seatle);
         cidades.add(Detroit);
-        cidades.add(Albuquerque);
 
         Albany.addRota(Boston, 170);
         Albany.addRota(NovaYork, 150);
@@ -247,7 +245,6 @@ public class Main {
         Phoenix.addRota(SanAntonio, 990);
         Phoenix.addRota(SanDiego, 350);
         Phoenix.addRota(GrandCanyon, 360);
-        Phoenix.addRota(Albuquerque, 350);
 
         SanDiego.addRota(LosAngeles, 120);
         SanDiego.addRota(PalmSprings, 140);
@@ -288,8 +285,6 @@ public class Main {
         Houston.addRota(Dallas, 250);
         Houston.addRota(NovaOrleans, 530);
         Houston.addRota(SanAntonio, 310);
-
-        Albuquerque.addRota(Phoenix, 350);
     }
 
     public static void main(String[] args) {
@@ -301,7 +296,7 @@ public class Main {
 
             mapa = new Mapa(cidades);
 
-            ArrayRotas menorRota = mapa.menorRota("NovaYork");
+            ArrayRotas menorRota = mapa.menorRota("Chicago");
             System.out.println("----------------MENOR ROTA----------------");
             for (int i=0; i<menorRota.size(); i++){
                 System.out.print(menorRota.get(i).getDestino().getNome()+", ");
