@@ -1,8 +1,13 @@
-package com.rodrigosoares;
+package com.rodrigosoares.Servidor;
 
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
-public class Main {
+public class Servidor {
 
     private static void inicializaCidades(ArrayList<Cidade> cidades) throws Exception{
         Cidade Albany= new Cidade ("Albany");
@@ -289,18 +294,29 @@ public class Main {
 
     public static void main(String[] args) {
         try {
+            //Recebe a conexão
+            ServerSocket pedido = new ServerSocket(32123);
+            Socket conexao = pedido.accept();
+            ObjectInputStream receptor = new ObjectInputStream(conexao.getInputStream());
+
+            //Recebe a cidade enviada pelo socket
+            String cidade = (String)receptor.readObject();
+
             Mapa mapa;
             ArrayList<Cidade> cidades = new ArrayList<>();
-
             inicializaCidades(cidades);
-
             mapa = new Mapa(cidades);
 
-            ArrayRotas menorRota = mapa.menorRota("Chicago");
+            //Busca a menor rota de acordo com a cidade enviada
+            ArrayRotas menorRota = mapa.menorRota(cidade);
             System.out.println("----------------MENOR ROTA----------------");
-            for (int i=0; i<menorRota.size(); i++){
-                System.out.print(menorRota.get(i).getDestino().getNome()+", ");
+            for (int i = 0; i < menorRota.size(); i++) {
+                System.out.print(menorRota.get(i).getDestino().getNome() + ", ");
             }
+
+            pedido.close();
+            conexao.close();
+            receptor.close();
 
         }
         catch (Exception e ){
