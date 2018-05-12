@@ -28,42 +28,41 @@ public class Mapa {
         throw new Exception("Cidade inexistente!");
     }
 
-    public ArrayRotas menorRota(String nomeOrigem) throws Exception{
-        return menorRota(nomeOrigem, this.cidades);
+    public ArrayRotas menorRota(String nomeOrigem, long tempoDebusca) throws Exception{
+        return menorRota(nomeOrigem, this.cidades, tempoDebusca);
     }
 
-    public ArrayRotas menorRota(String nomeOrigem, ArrayList<Cidade> destinos) throws Exception{
+    public ArrayRotas menorRota(String nomeOrigem, ArrayList<Cidade> destinos, long tempoDeBusca) throws Exception{
         int menorDistancia=999999999;
         ArrayRotas menorRota = null;
         Cidade origem = getCidade(nomeOrigem);
         ArrayRotas rotaAtual;
         ArrayRotas rotasDaOrigem = new ArrayRotas(origem.getRotas());
+        long startTime = System.currentTimeMillis();
+        long timeRunning = System.currentTimeMillis()-startTime;
+        boolean rotaEncontrada = false;
+        tempoDeBusca = tempoDeBusca * 1000; //Segundos -> Milisegundos
 
         //Adiciona todas as rotas da origem na pilha
         for (int i=0 ; i<rotasDaOrigem.size(); i++){
             ArrayRotas novaRota = new ArrayRotas();
             novaRota.add(rotasDaOrigem.get(i));
-            System.out.println("Rotas da origem:"+rotasDaOrigem.get(i).getDestino());
             stack.add(novaRota);
         }
 
-        //Verifica se todas as rotas da pilha já foram testadas
-        while (!stack.empty()){
+        //Verifica se todas as rotas da pilha já foram testadas && (nenhuma rota foi encontrada || o tempor é menor que 3 minutos)
+        while (!stack.empty() && (!rotaEncontrada || timeRunning<tempoDeBusca)){
             rotaAtual = new ArrayRotas(stack.pop());
 
             //Verifica se a rota atual passa por todas as cidades (nós) desejados e a última cidade é a origem
             //printaRotas(rotaAtual);
             if(rotaAtual.get(rotaAtual.size()-1).getDestino()==origem && contemTodasAsCidades(rotaAtual, destinos)){
-                    if(rotaAtual.getDistancia()>menorDistancia)
-                        break;
-
                 if (rotaAtual.getDistancia() < menorDistancia) {
                     menorDistancia = rotaAtual.getDistancia();
                     menorRota = rotaAtual;
+                    rotaEncontrada = true;
                 }
-                System.out.print("ACHOU UMA!" + menorDistancia + "\n");
-                printaRotas(menorRota);
-                return menorRota;
+                //return menorRota;
             }
 
             else{
@@ -82,6 +81,8 @@ public class Mapa {
                     }
                 }
             }
+            timeRunning = System.currentTimeMillis()-startTime;
+            //System.out.println(timeRunning +"|"+menorRota+"|"+Boolean.toString(!stack.empty() && (menorRota==null || timeRunning<180000)));
         }
         return menorRota;
     }

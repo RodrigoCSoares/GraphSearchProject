@@ -1,6 +1,7 @@
 package com.rodrigosoares.Servidor;
 
-import java.io.ObjectInput;
+import com.rodrigosoares.Pacote;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -300,8 +301,13 @@ public class Servidor {
             ObjectInputStream receptor = new ObjectInputStream(conexao.getInputStream());
             ObjectOutputStream transmissor = new ObjectOutputStream(conexao.getOutputStream());
 
-            //Recebe a cidade enviada pelo socket
-            String cidade = (String)receptor.readObject();
+            //Variaveis auxiliares
+            Pacote pacote = null;
+            ArrayList<Cidade> enviadas = new ArrayList<Cidade>() ;
+            ArrayRotas menorRota = new ArrayRotas();
+
+            //Recebe o pacote enviado pelo socket
+            pacote = (Pacote)receptor.readObject();
 
             //Inicializa o mapa
             Mapa mapa;
@@ -309,15 +315,26 @@ public class Servidor {
             inicializaCidades(cidades);
             mapa = new Mapa(cidades);
 
+            //Identifica as cidades
+            for(int i=0; i<pacote.getNomeCidades().size(); i++){
+                enviadas.add(mapa.getCidade(pacote.getNomeCidades().get(i)));
+            }
+
+            //Printa que a busca esta sendo efetuada
+            System.out.println("Efetuando a busca...");
+
             //Busca a menor rota de acordo com a cidade enviada
-            ArrayRotas menorRota = mapa.menorRota(cidade);
+            if(enviadas.size()==1)
+                menorRota = mapa.menorRota(enviadas.get(0).getNome(), pacote.getTempoDeBusca());
+            else
+                menorRota = mapa.menorRota(enviadas.get(0).getNome(), enviadas, pacote.getTempoDeBusca());
 
             //Envia o resultado
-            String enviado = "["+cidade;
+            String enviado =""; //"["+cidade;
             for (int i = 0; i < menorRota.size(); i++) {
                 enviado += " --"+menorRota.get(i).getDistancia()+ "--> " + menorRota.get(i).getDestino().getNome();
             }
-            enviado+="]\nTOTAL: "+menorRota.getDistancia();
+            enviado+="]\nTotal: "+menorRota.getDistancia();
             transmissor.writeObject(enviado);
 
             //Fecha conexao
