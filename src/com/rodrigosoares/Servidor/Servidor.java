@@ -294,24 +294,25 @@ public class Servidor {
 
     public static void main(String[] args) {
         try {
+            //Recebe a conexão
             ServerSocket pedido = new ServerSocket(32123);
             Socket conexao = pedido.accept();
             ObjectInputStream receptor = new ObjectInputStream(conexao.getInputStream());
-            String cidade;
 
-            do {
-                cidade = receptor.readUTF();
-                Mapa mapa;
-                ArrayList<Cidade> cidades = new ArrayList<>();
-                inicializaCidades(cidades);
-                mapa = new Mapa(cidades);
+            //Recebe a cidade enviada pelo socket
+            String cidade = (String)receptor.readObject();
 
-                ArrayRotas menorRota = mapa.menorRota(cidade);
-                System.out.println("----------------MENOR ROTA----------------");
-                for (int i = 0; i < menorRota.size(); i++) {
-                    System.out.print(menorRota.get(i).getDestino().getNome() + ", ");
-                }
-            }while (cidade.toUpperCase()!="SAIR");
+            Mapa mapa;
+            ArrayList<Cidade> cidades = new ArrayList<>();
+            inicializaCidades(cidades);
+            mapa = new Mapa(cidades);
+
+            //Busca a menor rota de acordo com a cidade enviada
+            ArrayRotas menorRota = mapa.menorRota(cidade);
+            System.out.println("----------------MENOR ROTA----------------");
+            for (int i = 0; i < menorRota.size(); i++) {
+                System.out.print(menorRota.get(i).getDestino().getNome() + ", ");
+            }
 
             pedido.close();
             conexao.close();

@@ -22,7 +22,7 @@ public class Mapa {
 
     public Cidade getCidade(String nome)throws Exception{
         for (int i=0; i<cidades.size(); i++){
-            if(cidades.get(i).getNome() == nome)
+            if(cidades.get(i).getNome().equals(nome))
                 return cidades.get(i);
         }
         throw new Exception("Cidade inexistente!");
