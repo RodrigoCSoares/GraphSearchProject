@@ -63,6 +63,7 @@ public class Mapa {
                 }
                 System.out.print("ACHOU UMA!" + menorDistancia + "\n");
                 printaRotas(menorRota);
+                return menorRota;
             }
 
             else{

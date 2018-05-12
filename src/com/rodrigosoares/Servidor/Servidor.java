@@ -295,13 +295,15 @@ public class Servidor {
     public static void main(String[] args) {
         try {
             //Recebe a conexão
-            ServerSocket pedido = new ServerSocket(32123);
+            ServerSocket pedido = new ServerSocket(9090);
             Socket conexao = pedido.accept();
             ObjectInputStream receptor = new ObjectInputStream(conexao.getInputStream());
+            ObjectOutputStream transmissor = new ObjectOutputStream(conexao.getOutputStream());
 
             //Recebe a cidade enviada pelo socket
             String cidade = (String)receptor.readObject();
 
+            //Inicializa o mapa
             Mapa mapa;
             ArrayList<Cidade> cidades = new ArrayList<>();
             inicializaCidades(cidades);
@@ -309,11 +311,16 @@ public class Servidor {
 
             //Busca a menor rota de acordo com a cidade enviada
             ArrayRotas menorRota = mapa.menorRota(cidade);
-            System.out.println("----------------MENOR ROTA----------------");
-            for (int i = 0; i < menorRota.size(); i++) {
-                System.out.print(menorRota.get(i).getDestino().getNome() + ", ");
-            }
 
+            //Envia o resultado
+            String enviado = "["+cidade;
+            for (int i = 0; i < menorRota.size(); i++) {
+                enviado += " --"+menorRota.get(i).getDistancia()+ "--> " + menorRota.get(i).getDestino().getNome();
+            }
+            enviado+="]\nTOTAL: "+menorRota.getDistancia();
+            transmissor.writeObject(enviado);
+
+            //Fecha conexao
             pedido.close();
             conexao.close();
             receptor.close();
