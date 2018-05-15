@@ -22,6 +22,13 @@ public class Cliente {
             }catch (Exception e){}
         }while (!digitouNumero);
 
+
+        System.out.println("Você deseja saber o caminho apenas de ida? ('sim' ou 'nao')");
+        if(teclado.readLine().toUpperCase().equals("SIM"))
+            pacote.setSomenteIda(true);
+        else
+            pacote.setSomenteIda(false);
+
         System.out.println("Quantas cidades deseja visitar? (1 - Visita todas as cidades e volta pr a inicial)");
         nCidades = Integer.parseInt(teclado.readLine());
 

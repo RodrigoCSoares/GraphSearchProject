@@ -325,9 +325,9 @@ public class Servidor {
 
             //Busca a menor rota de acordo com a cidade enviada
             if(enviadas.size()==1)
-                menorRota = mapa.menorRota(enviadas.get(0).getNome(), pacote.getTempoDeBusca());
+                menorRota = mapa.menorRota(enviadas.get(0).getNome(), pacote.getTempoDeBusca(), pacote.isSomenteIda());
             else
-                menorRota = mapa.menorRota(enviadas.get(0).getNome(), enviadas, pacote.getTempoDeBusca());
+                menorRota = mapa.menorRota(enviadas.get(0).getNome(), enviadas, pacote.getTempoDeBusca(), pacote.isSomenteIda());
 
             //Envia o resultado
             String enviado =""; //"["+cidade;

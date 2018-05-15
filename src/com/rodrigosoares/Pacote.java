@@ -6,6 +6,7 @@ import java.util.ArrayList;
 public class Pacote implements Serializable {
     private ArrayList<String> nomeCidades;
     private long tempoDeBusca;
+    private boolean somenteIda;
 
     public Pacote() throws Exception{
         nomeCidades = new ArrayList<>();
@@ -21,6 +22,14 @@ public class Pacote implements Serializable {
             throw new Exception("Cidade invalida!");
 
         nomeCidades.add(nome);
+    }
+
+    public boolean isSomenteIda() {
+        return somenteIda;
+    }
+
+    public void setSomenteIda(boolean somenteIda) {
+        this.somenteIda = somenteIda;
     }
 
     public ArrayList<String> getNomeCidades(){

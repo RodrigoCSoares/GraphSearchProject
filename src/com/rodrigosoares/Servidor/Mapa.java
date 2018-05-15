@@ -28,11 +28,11 @@ public class Mapa {
         throw new Exception("Cidade inexistente!");
     }
 
-    public ArrayRotas menorRota(String nomeOrigem, long tempoDebusca) throws Exception{
-        return menorRota(nomeOrigem, this.cidades, tempoDebusca);
+    public ArrayRotas menorRota(String nomeOrigem, long tempoDebusca, boolean rotaSomenteIda) throws Exception{
+        return menorRota(nomeOrigem, this.cidades, tempoDebusca, rotaSomenteIda);
     }
 
-    public ArrayRotas menorRota(String nomeOrigem, ArrayList<Cidade> destinos, long tempoDeBusca) throws Exception{
+    public ArrayRotas menorRota(String nomeOrigem, ArrayList<Cidade> destinos, long tempoDeBusca, boolean rotaSomenteIda) throws Exception{
         int menorDistancia=999999999;
         ArrayRotas menorRota = null;
         Cidade origem = getCidade(nomeOrigem);
@@ -56,7 +56,13 @@ public class Mapa {
 
             //Verifica se a rota atual passa por todas as cidades (nós) desejados e a última cidade é a origem
             //printaRotas(rotaAtual);
-            if(rotaAtual.get(rotaAtual.size()-1).getDestino()==origem && contemTodasAsCidades(rotaAtual, destinos)){
+            if(rotaSomenteIda && contemTodasAsCidades(rotaAtual, destinos, origem)){
+                if (rotaAtual.getDistancia() < menorDistancia) {
+                    menorDistancia = rotaAtual.getDistancia();
+                    menorRota = rotaAtual;
+                    rotaEncontrada = true;
+                }
+            }else if((rotaAtual.get(rotaAtual.size()-1).getDestino()==origem) && contemTodasAsCidades(rotaAtual, destinos)){
                 if (rotaAtual.getDistancia() < menorDistancia) {
                     menorDistancia = rotaAtual.getDistancia();
                     menorRota = rotaAtual;
@@ -64,7 +70,6 @@ public class Mapa {
                 }
                 //return menorRota;
             }
-
             else{
                 ArrayRotas proximasRotas = new ArrayRotas(rotaAtual.get(rotaAtual.size()-1).getDestino().getRotas());
 
@@ -114,6 +119,23 @@ public class Mapa {
     //Verifica se a rota passa por todas as cidades (nós) do mapa
     public boolean contemTodasAsCidades(ArrayRotas rotas, ArrayList<Cidade> destinos){
         ArrayList<Cidade> cidadesCopia = new ArrayList<>(destinos);
+        ArrayList<Cidade> cidadesNaRota = new ArrayList<>();
+        for (int i=0; i<rotas.size(); i++){
+            cidadesNaRota.add(rotas.get(i).destino);
+        }
+
+        cidadesCopia.removeAll(cidadesNaRota);
+
+        if(cidadesCopia.isEmpty())
+            return true;
+
+        return false;
+    }
+
+    //Metodo para rotas somente de ida
+    public boolean contemTodasAsCidades(ArrayRotas rotas, ArrayList<Cidade> destinos, Cidade origem){
+        ArrayList<Cidade> cidadesCopia = new ArrayList<>(destinos);
+        cidadesCopia.remove(origem);
         ArrayList<Cidade> cidadesNaRota = new ArrayList<>();
         for (int i=0; i<rotas.size(); i++){
             cidadesNaRota.add(rotas.get(i).destino);
