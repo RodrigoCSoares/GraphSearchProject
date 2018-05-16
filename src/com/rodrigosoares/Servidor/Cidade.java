@@ -1,9 +1,10 @@
 package com.rodrigosoares.Servidor;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cidade{
+public class Cidade implements Serializable {
     private String nome;
     private ArrayList<Rota> rotas;
     private boolean vizinhaDeIsolada;
@@ -16,6 +17,10 @@ public class Cidade{
         this.nome = nome;
         this.rotas = new ArrayList<>();
         this.vizinhaDeIsolada = false;
+    }
+
+    public Cidade(){
+        this.nome = "";
     }
 
     public Cidade (Cidade modelo) throws Exception{

@@ -55,20 +55,21 @@ public class Mapa {
             rotaAtual = new ArrayRotas(stack.pop());
 
             //Verifica se a rota atual passa por todas as cidades (nós) desejados e a última cidade é a origem
-            //printaRotas(rotaAtual);
+            //Caso o usuario requisitou um caminhos apenas de ida
             if(rotaSomenteIda && contemTodasAsCidades(rotaAtual, destinos, origem)){
                 if (rotaAtual.getDistancia() < menorDistancia) {
                     menorDistancia = rotaAtual.getDistancia();
                     menorRota = rotaAtual;
                     rotaEncontrada = true;
                 }
+
+            //Caso o usuario NAO requisitou um caminho apenas de ida
             }else if((rotaAtual.get(rotaAtual.size()-1).getDestino()==origem) && contemTodasAsCidades(rotaAtual, destinos)){
                 if (rotaAtual.getDistancia() < menorDistancia) {
                     menorDistancia = rotaAtual.getDistancia();
                     menorRota = rotaAtual;
                     rotaEncontrada = true;
                 }
-                //return menorRota;
             }
             else{
                 ArrayRotas proximasRotas = new ArrayRotas(rotaAtual.get(rotaAtual.size()-1).getDestino().getRotas());
@@ -87,31 +88,23 @@ public class Mapa {
                 }
             }
             timeRunning = System.currentTimeMillis()-startTime;
-            //System.out.println(timeRunning +"|"+menorRota+"|"+Boolean.toString(!stack.empty() && (menorRota==null || timeRunning<180000)));
         }
         return menorRota;
     }
 
     //Verifica se a rota possue cidades (nós) repetidas
-    private boolean contemCidadesRepetidas(ArrayRotas rota, Cidade origem) throws Exception{
+    private boolean contemCidadesRepetidas(ArrayRotas rota, Cidade origem){
         ArrayList<Cidade> cidadesContidas = new ArrayList<>();
         cidadesContidas.add(origem);
         for(int i=0; i<rota.size(); i++){
             Cidade cidadeAtual = rota.get(i).getDestino();
-            /*Verifica se a cidade é isolada
-            if(cidadeAtual.getRotas().size() == 1){
-                cidadeAtual.getRotas().get(0).getDestino().setVizinhaDeIsolada(true);
-            }
-            else
-                cidadeAtual.getRotas().get(0).getDestino().setVizinhaDeIsolada(false);
-            */
+
             //Verifica se a cidade está repetida
-            if (/*(!cidadeAtual.isVizinhaDeIsolada()) &&*/ cidadesContidas.contains(cidadeAtual))
+            if (cidadesContidas.contains(cidadeAtual))
                 return true;
             else
-                //Adiciona a cidade nos Array de cidades da rota, somente se não for vizinha de alguma cidade isolada
-                //if(!cidadeAtual.isVizinhaDeIsolada())
-                    cidadesContidas.add(cidadeAtual);
+                //Adiciona a cidade nos Array de cidades da rota
+                cidadesContidas.add(cidadeAtual);
         }
         return false;
     }
@@ -149,12 +142,4 @@ public class Mapa {
         return false;
     }
 
-    private void printaRotas(ArrayRotas rotas) throws Exception{
-        int i;
-        System.out.print("[");
-        for (i=0; i<rotas.size()-1; i++)
-            System.out.print(rotas.get(i).getDestino().getNome()+", ");
-
-        System.out.print(rotas.get(i).getDestino().getNome()+"]\n");
-    }
 }

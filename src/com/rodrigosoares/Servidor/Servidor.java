@@ -13,7 +13,7 @@ public class Servidor {
     private static void inicializaCidades(ArrayList<Cidade> cidades) throws Exception{
         Cidade Albany= new Cidade ("Albany");
         Cidade Boston = new Cidade ("Boston");
-        Cidade NovaYork = new Cidade ("NovaYork");
+        Cidade NovaYork = new Cidade ("Nova York");
         Cidade Washington = new Cidade("Washington");
         Cidade Richmond= new Cidade("Richmond");
         Cidade Indianapolis = new Cidade("Indianapolis");
@@ -22,31 +22,31 @@ public class Servidor {
         Cidade Milwaukee= new Cidade("Milwaukee");
         Cidade Atlanta= new Cidade("Atlanta");
         Cidade Memphis= new Cidade("Memphis");
-        Cidade StLouis= new Cidade("StLouis");
-        Cidade KansasCity= new Cidade("KansasCity");
+        Cidade StLouis= new Cidade("St Louis");
+        Cidade KansasCity= new Cidade("Kansas City");
         Cidade Mineapolis= new Cidade("Mineapolis");
-        Cidade LittleRock= new Cidade("LittleRock");
+        Cidade LittleRock= new Cidade("Little Rock");
         Cidade Dallas= new Cidade("Dallas");
         Cidade Omaha= new Cidade("Omaha");
-        Cidade ColoradoSprings= new Cidade("ColoradoSprings");
+        Cidade ColoradoSprings= new Cidade("Colorado Springs");
         Cidade Orlando= new Cidade("Orlando");
-        Cidade FortLauderdale= new Cidade("FortLauderdale");
+        Cidade FortLauderdale= new Cidade("Fort Lauderdale");
         Cidade Miami= new Cidade("Miami");
-        Cidade NovaOrleans= new Cidade("NovaOrleans");
+        Cidade NovaOrleans= new Cidade("Nova Orleans");
         Cidade Denver= new Cidade("Denver");
         Cidade Aspen= new Cidade("Aspen");
         Cidade Vail= new Cidade("Vail");
         Cidade Yellowstone= new Cidade("Yellowstone");
-        Cidade SaltLakeCity= new Cidade("SaltLakeCity");
-        Cidade LasVegas= new Cidade("LasVegas");
-        Cidade GrandCanyon= new Cidade("GrandCanyon");
+        Cidade SaltLakeCity= new Cidade("Salt Lake City");
+        Cidade LasVegas= new Cidade("Las Vegas");
+        Cidade GrandCanyon= new Cidade("Grand Canyon");
         Cidade Boise= new Cidade("Boise");
-        Cidade PalmSprings = new Cidade("PalmSprings");
+        Cidade PalmSprings = new Cidade("Palm Springs");
         Cidade Phoenix= new Cidade("Phoenix");
-        Cidade SanDiego= new Cidade("SanDiego");
-        Cidade LosAngeles= new Cidade("LosAngeles");
-        Cidade LakeTahoe= new Cidade("LakeTahoe");
-        Cidade SanFrancisco= new Cidade("SanFrancisco");
+        Cidade SanDiego= new Cidade("San Diego");
+        Cidade LosAngeles= new Cidade("Los Angeles");
+        Cidade LakeTahoe= new Cidade("Lake Tahoe");
+        Cidade SanFrancisco= new Cidade("San Francisco");
         Cidade Portland= new Cidade("Portland");
         Cidade Seatle= new Cidade("Seatle");
         Cidade Detroit = new Cidade("Detroit");
@@ -306,14 +306,24 @@ public class Servidor {
             ArrayList<Cidade> enviadas = new ArrayList<Cidade>() ;
             ArrayRotas menorRota = new ArrayRotas();
 
-            //Recebe o pacote enviado pelo socket
-            pacote = (Pacote)receptor.readObject();
-
             //Inicializa o mapa
             Mapa mapa;
             ArrayList<Cidade> cidades = new ArrayList<>();
             inicializaCidades(cidades);
-            mapa = new Mapa(cidades);
+
+            //Envia o mapa para o cliente
+            transmissor.writeObject(cidades);
+
+            //Recebe o pacote enviado pelo socket
+            pacote = (Pacote)receptor.readObject();
+            if(pacote.getAdicionarCidades())
+                cidades = pacote.getNovasCidades();
+
+            //Inicializa o mapa apos receber as cidades do cliente
+            mapa = new Mapa (cidades);
+            int tamMapa = mapa.getCidades().size();
+            for(int i=0; i<tamMapa; i++)
+                System.out.println(mapa.getCidades().get(i).getNome() +"|"+ mapa.getCidades().get(i).getRotas().get(mapa.getCidades().get(i).getRotas().size()-1).destino.getNome());
 
             //Identifica as cidades
             for(int i=0; i<pacote.getNomeCidades().size(); i++){

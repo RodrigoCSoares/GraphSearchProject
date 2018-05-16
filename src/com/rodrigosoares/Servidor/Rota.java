@@ -1,7 +1,9 @@
 package com.rodrigosoares.Servidor;
 
 
-public class Rota {
+import java.io.Serializable;
+
+public class Rota implements Serializable {
     Cidade destino;
     int distancia;
     boolean visitada;
