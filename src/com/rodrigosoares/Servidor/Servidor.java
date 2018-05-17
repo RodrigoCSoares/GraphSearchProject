@@ -321,9 +321,6 @@ public class Servidor {
 
             //Inicializa o mapa apos receber as cidades do cliente
             mapa = new Mapa (cidades);
-            int tamMapa = mapa.getCidades().size();
-            for(int i=0; i<tamMapa; i++)
-                System.out.println(mapa.getCidades().get(i).getNome() +"|"+ mapa.getCidades().get(i).getRotas().get(mapa.getCidades().get(i).getRotas().size()-1).destino.getNome());
 
             //Identifica as cidades
             for(int i=0; i<pacote.getNomeCidades().size(); i++){
